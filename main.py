@@ -20,6 +20,7 @@ def main():
                 return
 
         # Game state
+        player.update(dt)
 
         # Rendering
         screen.fill(pygame.Color(0,0,0))
