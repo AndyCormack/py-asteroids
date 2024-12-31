@@ -22,7 +22,6 @@ class Player(CircleShape):
             self.triangle(),
             2
         )
-        pass
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
