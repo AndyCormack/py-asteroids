@@ -1,18 +1,14 @@
 import pygame
 import pygame.freetype
 from constants import WHITE
+from player import Player
 
 
 class UI(pygame.sprite.Sprite):
-    def __init__(self, screen):
+    def __init__(self, screen, player: Player):
         super().__init__(self.containers)
         self.font = pygame.freetype.Font(None, 36)
-        self.stats = {
-            "score": 0,
-        }
+        self.player = player
 
     def draw(self, screen: pygame.Surface):
-        self.font.render_to(screen, (20, 20), f"Score: {self.stats['score']}", WHITE)
-
-    def updateScore(self, score):
-        self.stats["score"] = score
+        self.font.render_to(screen, (20, 20), f"Score: {self.player.score}", WHITE)

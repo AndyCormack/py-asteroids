@@ -21,11 +21,11 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
 
-    UI.containers = (updatable, drawable)
-    ui = UI(screen)
-
     Player.containers = (updatable, drawable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    UI.containers = (updatable, drawable)
+    UI(screen, player)
 
     shots = pygame.sprite.Group()
     Shot.containers = (shots, updatable, drawable)
@@ -56,7 +56,6 @@ def main():
                     asteroid.split()
                     shot.kill()
                     player.add_score()
-                    ui.updateScore(player.score)
 
         # Rendering
         screen.fill(pygame.Color(0, 0, 0))
