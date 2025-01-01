@@ -2,6 +2,9 @@ import pygame
 from circleshape import CircleShape
 from constants import (
     WHITE,
+    RED,
+    PLAYER_LIVES,
+    PLAYER_INVULNERABILITY,
     PLAYER_RADIUS,
     PLAYER_TURN_SPEED,
     PLAYER_SPEED,
@@ -10,12 +13,16 @@ from constants import (
 )
 from shot import Shot
 
+
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
+        self.spawn_location = pygame.Vector2(x, y)
         self.rotation = 0
         self.shot_timer = 0
         self.score = 0
+        self.lives = PLAYER_LIVES
+        self.invulnerability = 0
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -26,12 +33,8 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
-        pygame.draw.polygon(
-            screen,
-            WHITE,
-            self.triangle(),
-            2
-        )
+        color = self.invulnerability > 0 and RED or WHITE
+        pygame.draw.polygon(screen, color, self.triangle(), 2)
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
@@ -49,9 +52,24 @@ class Player(CircleShape):
     def add_score(self):
         self.score += 1
 
+    def die(self):
+        if self.invulnerability > 0:
+            return
+
+        if self.lives > 0:
+            self.lives -= 1
+            self.respawn()
+
+    def respawn(self):
+        self.invulnerability = PLAYER_INVULNERABILITY
+        self.position = self.spawn_location.copy()
+
     def update(self, dt):
         if self.shot_timer > 0:
             self.shot_timer -= dt
+
+        if self.invulnerability > 0:
+            self.invulnerability -= dt
 
         keys = pygame.key.get_pressed()
 

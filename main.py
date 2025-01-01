@@ -48,8 +48,10 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.colliding(player):
-                print("Game over!")
-                sys.exit(0)
+                player.die()
+                if player.lives == 0:
+                    print("Game over!")
+                    sys.exit(0)
 
             for shot in shots:
                 if asteroid.colliding(shot):

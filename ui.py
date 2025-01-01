@@ -12,3 +12,4 @@ class UI(pygame.sprite.Sprite):
 
     def draw(self, screen: pygame.Surface):
         self.font.render_to(screen, (20, 20), f"Score: {self.player.score}", WHITE)
+        self.font.render_to(screen, (20, 60), f"Lives: {self.player.lives}", WHITE)
